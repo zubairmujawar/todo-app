@@ -1,11 +1,23 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
+const getLocalTodos = ()=>{
+
+  let list = localStorage.getItem('list')
+  if(list){
+    return JSON.parse(localStorage.getItem('list'))
+  }else {
+    return []
+  }
+ }
+
 function App() {
+  
  const [input, setInput] = useState('')
- const [todos, settodos] = useState([])
+ const [todos, settodos] = useState(getLocalTodos())
 
 
+ 
  const addTodos =()=>{
   if(!input){
     alert("please write somthing")
@@ -25,6 +37,11 @@ function App() {
   })
   settodos(updatedTodo)
  }
+//  to set the value in localStorage
+ useEffect(() => {
+   localStorage.setItem("list", JSON.stringify(todos))
+ }, [input])
+ 
 
   return (
     <>
